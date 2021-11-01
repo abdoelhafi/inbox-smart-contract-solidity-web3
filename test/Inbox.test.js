@@ -18,7 +18,21 @@ beforeEach(async () => {
 });
 
 describe("Inbox", () => {
+  // assert that the contract is successfully deployed
   it('deploys a contract', () => {
-    console.log('inbox :>> ', inbox);
+    assert.ok(inbox.options.address);
+  });
+
+  // assert that the geter methode return the default value
+  it('getter returns instance variable default value',async () => {
+    const message = await inbox.methods.message().call();
+    assert.strictEqual(message,'Hi there!');
+  });
+
+  // assert that the setter methode change the  value of the instance variable
+  it('setter methode change the  value of the instance variable',async () => {
+    await inbox.methods.setMessage('New Message').send({from:accounts[0]});
+    const message = await inbox.methods.message().call();
+    assert.strictEqual(message,'New Message');
   });
 });
